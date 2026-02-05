@@ -9,10 +9,12 @@ os.makedirs(OUTPUT, exist_ok=True)
 
 def render_html(html):
 
-    # SAFE filename – no spaces
-    name = str(uuid.uuid4()).replace(" ", "")
+    # Generate safe filename – NO SPACES EVER
+    name = str(uuid.uuid4()).replace(" ", "").replace("-", "")
 
-    path = f"{OUTPUT}/{name}.png"
+    filename = f"{name}.png"
+
+    path = f"{OUTPUT}/{filename}"
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
@@ -24,7 +26,7 @@ def render_html(html):
         page.screenshot(path=path, full_page=True)
         browser.close()
 
-    return name + ".png"   # return only filename
+    return filename   # only clean filename
 
 
 
