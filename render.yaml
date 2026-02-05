@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: early-renderer
+    env: docker
+    plan: free
+    autoDeploy: true
