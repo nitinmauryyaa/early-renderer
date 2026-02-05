@@ -8,7 +8,11 @@ OUTPUT = "output"
 os.makedirs(OUTPUT, exist_ok=True)
 
 def render_html(html):
-    path = f"{OUTPUT}/{uuid.uuid4()}.png"
+
+    # SAFE filename – no spaces
+    name = str(uuid.uuid4()).replace(" ", "")
+
+    path = f"{OUTPUT}/{name}.png"
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
@@ -20,7 +24,8 @@ def render_html(html):
         page.screenshot(path=path, full_page=True)
         browser.close()
 
-    return path
+    return name + ".png"   # return only filename
+
 
 
 @app.post("/render")
