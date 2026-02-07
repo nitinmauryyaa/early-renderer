@@ -45,7 +45,6 @@ def render_html(html):
     return filename
 
 
-
 @app.post("/render")
 def render():
 
@@ -53,16 +52,21 @@ def render():
 
     slides = data.get("slides", [])
 
-    paths = []
+    result = []
 
-    for html in slides:
+    for item in slides:
+
+        html = item.get("html")
+        index = item.get("index")
 
         filename = render_html(html)
 
-        paths.append(filename)
+        result.append({
+            "file": filename,
+            "index": index
+        })
 
-    return jsonify({"paths": paths})
-
+    return jsonify({"results": result})
 
 
 @app.get("/file/<name>")
